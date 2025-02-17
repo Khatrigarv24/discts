@@ -21,23 +21,14 @@
     "@hono/node-server": "^1.13.7",
     "@types/node": "^22.10.5",
     "dotenv": "^16.4.7",
-    "drizzle-orm": "^0.38.4",
-    "fs": "0.0.1-security",
-    "hono": "^4.6.16",
-    "pg": "^8.13.1",
-    "postgres": "^3.4.5",
-    "ulid": "^2.3.0",
-    "uuid": "^11.0.5",
-    "zod": "^3.24.1"
+    "hono": "^4.6.16"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
-    "@types/pg": "^8.11.10",
-    "drizzle-kit": "^0.30.2",
     "eslint": "^9.18.0",
     "globals": "^15.14.0",
     "prettier": "3.4.2",
-    "tsx": "^4.19.2",
+    "tsx": "^3.12.10",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.21.0"
   }
