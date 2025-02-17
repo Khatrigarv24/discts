@@ -1,19 +1,44 @@
 {
-  "name": "backend",
+  "name": "notes-app",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/index.ts",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format:check": "prettier . --check",
+    "format:write": "prettier . --write"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.741.0",
-    "aws-sdk": "^2.1692.0",
-    "body-parser": "^1.20.3",
+    "@aws-sdk/client-dynamodb": "^3.749.0",
+    "@aws-sdk/client-s3": "^3.738.0",
+    "@aws-sdk/lib-dynamodb": "^3.749.0",
+    "@hono/node-server": "^1.13.7",
+    "@types/node": "^22.10.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "drizzle-orm": "^0.38.4",
+    "fs": "0.0.1-security",
+    "hono": "^4.6.16",
+    "pg": "^8.13.1",
+    "postgres": "^3.4.5",
+    "ulid": "^2.3.0",
+    "uuid": "^11.0.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.30.2",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
+    "prettier": "3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.21.0"
   }
 }
