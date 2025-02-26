@@ -1,7 +1,6 @@
 import { ddbDocClient } from './inventory-services';
 import { Context } from 'hono';
 import { GetCommand, PutCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
-import { ulid } from 'ulid';
 
 // 📌 Type Definition for Inventory Item
 interface InventoryItem {

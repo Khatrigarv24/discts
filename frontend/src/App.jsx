@@ -1,14 +1,13 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import React from 'react'
+import Navbar from './components/Navbar'
 
-export default function App() {
+const App = () => {
   return (
-    <header>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-    </header>
-  );
+    <div>
+      <Navbar />
+      <h1>Home Page</h1>
+    </div>
+  )
 }
+
+export default App
