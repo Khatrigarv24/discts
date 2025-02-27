@@ -53,40 +53,52 @@ DISCTS is a full-stack inventory management application that allows businesses t
 ```bash
 git clone https://github.com/Abhijat05/discts.git
 cd discts
+```
 
 2. Install dependencies:
 
 # Install backend dependencies
+```bash
 cd backend
 npm install
+```
 
 # Install frontend dependencies
+```bash
 cd ../frontend
 npm install
+```
 
 3. Configure environment variables:
 
   For backend (.env file in backend directory):
-
+```bash
 AWS_ACCESS_KEY=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 AWS_SESSION_TOKEN=your_session_token
 AWS_REGION=your_aws_region
+```
 
   For frontend (.env.local file in frontend directory):
+```bash
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+```
 
 4. Start the development servers:
 
 # Start backend server (in backend directory)
+```bash
 npm run dev
+```
 
 # Start frontend server (in frontend directory)
+```bash
 npm run dev
-
+```
 
 🏗️ Project Structure
 
+```bash
 discts/
 ├── backend/                # Backend server code
 │   ├── src/
@@ -106,3 +118,4 @@ discts/
 │   ├── .env.local          # Environment variables (not in repo)
 │   └── package.json        # Frontend dependencies
 └── README.md               # Project documentation
+```
