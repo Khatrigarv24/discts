@@ -1,6 +1,6 @@
 import { ddbDocClient } from './inventory-services';
 import { Context } from 'hono';
-import { GetCommand, PutCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
+import { GetCommand, PutCommand, UpdateCommand, DeleteCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 
 // 📌 Type Definition for Inventory Item
 interface InventoryItem {
@@ -90,3 +90,20 @@ export const deleteItem = async (c: Context) => {
     return c.json({ error: "Error deleting item", details: error.message }, 500);
   }
 };
+
+export const getAllItems = async (c: Context) => {
+  try {
+    console.log("Fetching all items from discts table");
+    const { Items } = await ddbDocClient.send(
+      new ScanCommand({ 
+        TableName: 'discts' 
+      })
+    );
+
+    console.log("Items retrieved:", Items ? Items.length : 0);
+    return c.json({ success: true, items: Items || [] });
+  } catch (error) {
+    console.error("❌ Error fetching items:", error);
+    return c.json({ success: false, error: "Error retrieving items", details: error.message }, 500);
+  }
+}
