@@ -4,88 +4,93 @@ import React, { useState } from 'react';
 const ProductForm = ({ onSubmit, loading }) => {
   const [formData, setFormData] = useState({
     name: '',
-    stock: 0,
-    price: 0
+    stock: '',
+    price: '' 
   });
   
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === 'name' ? value : Number(value)
+      [name]: value  // Store as string in state
     });
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    setFormData({ name: '', stock: 0, price: 0 });
+    // Convert to proper types before submitting
+    const submissionData = {
+      name: formData.name,
+      stock: formData.stock === '' ? 0 : Number(formData.stock),
+      price: formData.price === '' ? 0 : Number(formData.price)
+    };
+    onSubmit(submissionData);
+    setFormData({ name: '', stock: '', price: '' });
   };
 
   return (
-    <div className="bg-white dark:bg-gray-700 shadow rounded-lg p-6">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Add New Product</h2>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <label className="block text-foreground text-sm font-medium mb-2" htmlFor="name">
+          Product Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="bg-background border border-input rounded w-full py-2 px-3 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          required
+          placeholder='Enter product name'
+        />
+      </div>
       
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="name">
-            Product Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="stock">
-            Stock
-          </label>
-          <input
-            type="number"
-            id="stock"
-            name="stock"
-            value={formData.stock}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            min="0"
-            required
-          />
-        </div>
-        
-        <div className="mb-6">
-          <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="price">
-            Price ($)
-          </label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            min="0"
-            step="0.01"
-            required
-          />
-        </div>
-        
-        <div className="flex items-center justify-end">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            disabled={loading}
-          >
-            {loading ? 'Adding...' : 'Add Product'}
-          </button>
-        </div>
-      </form>
-    </div>
+      <div className="mb-4">
+        <label className="block text-foreground text-sm font-medium mb-2" htmlFor="stock">
+          Stock
+        </label>
+        <input
+          type="number"
+          id="stock"
+          name="stock"
+          value={formData.stock}
+          onChange={handleChange}
+          className="bg-background border border-input rounded w-full py-2 px-3 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          min="0"
+          required
+          placeholder='Enter stock quantity'
+        />
+      </div>
+      
+      <div className="mb-6">
+        <label className="block text-foreground text-sm font-medium mb-2" htmlFor="price">
+          Price (₹)
+        </label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          className="bg-background border border-input rounded w-full py-2 px-3 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          min="0"
+          step="0.01"
+          required
+          placeholder='Enter product price'
+        />
+      </div>
+      
+      <div className="flex items-center justify-end">
+        <button
+          type="submit"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-ring"
+          disabled={loading}
+        >
+          {loading ? 'Adding...' : 'Add Product'}
+        </button>
+      </div>
+    </form>
   );
 };
 
