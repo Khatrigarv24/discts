@@ -93,11 +93,6 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/inventory/add" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent">
-                        <div className="text-sm font-medium text-popover-foreground">Add Item</div>
-                      </Link>
-                    </li>
-                    <li>
                       <Link to="/inventory/categories" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent">
                         <div className="text-sm font-medium text-popover-foreground">Categories</div>
                       </Link>
