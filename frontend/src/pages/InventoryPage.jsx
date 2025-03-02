@@ -65,30 +65,35 @@ const InventoryPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-white">Inventory Management</h1>
+      <h1 className="text-3xl font-bold mb-8 text-foreground">Inventory Management</h1>
       
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <div className="bg-destructive/20 border border-destructive text-destructive-foreground px-4 py-3 rounded mb-6">
           {error}
         </div>
       )}
       
       {isSignedIn ? (
         <>
-          <ProductForm onSubmit={handleAddProduct} loading={loading} />
+          <div className="bg-card shadow rounded-lg p-6 border border-border">
+            <h2 className="text-2xl font-semibold mb-4 text-card-foreground">Add New Product</h2>
+            <ProductForm onSubmit={handleAddProduct} loading={loading} />
+          </div>
           
           <div className="mt-12">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Product List</h2>
-            <ProductList 
-              products={products} 
-              onUpdateStock={handleUpdateStock}
-              onDeleteProduct={handleDeleteProduct}
-              loading={loading}
-            />
+            <h2 className="text-2xl font-semibold mb-4 text-foreground">Product List</h2>
+            <div className="bg-card shadow rounded-lg border border-border overflow-hidden">
+              <ProductList 
+                products={products} 
+                onUpdateStock={handleUpdateStock}
+                onDeleteProduct={handleDeleteProduct}
+                loading={loading}
+              />
+            </div>
           </div>
         </>
       ) : (
-        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+        <div className="bg-secondary/50 border border-secondary text-secondary-foreground px-4 py-3 rounded">
           Please sign in to manage inventory
         </div>
       )}

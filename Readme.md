@@ -7,6 +7,7 @@
   ![TypeScript](https://img.shields.io/badge/TypeScript-5.7.3-3178C6?style=for-the-badge&logo=typescript)
   ![DynamoDB](https://img.shields.io/badge/DynamoDB-AWS-FF9900?style=for-the-badge&logo=amazondynamodb)
   ![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF?style=for-the-badge)
+  ![Shadcn UI](https://img.shields.io/badge/Shadcn-UI-000000?style=for-the-badge)
 </div>
 
 ## 📋 Overview
@@ -19,6 +20,7 @@ DISCTS is a full-stack inventory management application that allows businesses t
       <h3 align="center">🌐 Frontend Features</h3>
       <ul>
         <li>React UI with Tailwind CSS styling</li>
+        <li>Shadcn UI component library for a cohesive design</li>
         <li>Clerk authentication system</li>
         <li>Responsive design for all devices</li>
         <li>Real-time inventory management</li>
