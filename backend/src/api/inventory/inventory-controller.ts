@@ -8,22 +8,50 @@ interface InventoryItem {
   name: string;
   stock: number;
   price: number;
+  batchNumber: string;
+  manufacturingDate: string; // ISO date string format
+  expiryDate: string; // ISO date string format
 }
 
 // 📌 Add an Item
 export const addItem = async (c: Context) => {
-  const { name, stock, price }: Omit<InventoryItem, 'productId'> = await c.req.json();
-  if (!name || stock === undefined || price === undefined) {
+  const { name, stock, price, batchNumber, manufacturingDate, expiryDate }: Omit<InventoryItem, 'productId'> = await c.req.json();
+  if (!name || stock === undefined || price === undefined || !batchNumber || !manufacturingDate || !expiryDate) {
     return c.json({ error: "Missing required fields" }, 400);
   }
 
-  const productId = `prod-${Date.now()}`; // Unique ID generation
+  // Validate dates
+  const mfgDate = new Date(manufacturingDate);
+  const expDate = new Date(expiryDate);
+  
+  if (isNaN(mfgDate.getTime())) {
+    return c.json({ error: "Invalid manufacturing date format" }, 400);
+  }
+  
+  if (isNaN(expDate.getTime())) {
+    return c.json({ error: "Invalid expiry date format" }, 400);
+  }
+  
+  if (mfgDate > expDate) {
+    return c.json({ error: "Manufacturing date cannot be after expiry date" }, 400);
+  }
+
+  // Keep using your existing ID generation method
+  const productId = `prod-${Date.now()}`;
 
   try {
     await ddbDocClient.send(
       new PutCommand({
         TableName: 'discts',
-        Item: { productId, name, stock, price },
+        Item: { 
+          productId, 
+          name, 
+          stock, 
+          price, 
+          batchNumber, 
+          manufacturingDate,
+          expiryDate 
+        },
       })
     );
 
@@ -54,24 +82,52 @@ export const getProductById = async (c: Context) => {
 // 📌 Update Stock
 export const updateStock = async (c: Context) => {
   const productId: string = c.req.param("id");
-  const { stock }: { stock: number } = await c.req.json();
+  const { stock, batchNumber, manufacturingDate, expiryDate }: Partial<InventoryItem> = await c.req.json();
 
-  if (stock === undefined) return c.json({ error: "Stock value is required" }, 400);
+  if (stock === undefined && !batchNumber && !manufacturingDate && !expiryDate) {
+    return c.json({ error: "At least one update field is required" }, 400);
+  }
 
   try {
+    // Build dynamic update expression based on what fields are provided
+    let updateExpression = "SET";
+    const expressionAttributeValues = {};
+
+    if (stock !== undefined) {
+      updateExpression += " stock = :stock";
+      expressionAttributeValues[":stock"] = stock;
+    }
+
+    if (batchNumber) {
+      updateExpression += stock !== undefined ? ", batchNumber = :batchNumber" : " batchNumber = :batchNumber";
+      expressionAttributeValues[":batchNumber"] = batchNumber;
+    }
+    
+    if (manufacturingDate) {
+      const hasComma = stock !== undefined || batchNumber ? ", " : " ";
+      updateExpression += `${hasComma}manufacturingDate = :manufacturingDate`;
+      expressionAttributeValues[":manufacturingDate"] = manufacturingDate;
+    }
+
+    if (expiryDate) {
+      const hasComma = stock !== undefined || batchNumber || manufacturingDate ? ", " : " ";
+      updateExpression += `${hasComma}expiryDate = :expiryDate`;
+      expressionAttributeValues[":expiryDate"] = expiryDate;
+    }
+
     await ddbDocClient.send(
       new UpdateCommand({
         TableName: 'discts',
         Key: { productId },
-        UpdateExpression: "SET stock = :stock",
-        ExpressionAttributeValues: { ":stock": stock },
+        UpdateExpression: updateExpression,
+        ExpressionAttributeValues: expressionAttributeValues,
       })
     );
 
-    return c.json({ message: "Stock updated successfully" });
+    return c.json({ message: "Item updated successfully" });
   } catch (error) {
-    console.error("❌ Error updating stock:", error);
-    return c.json({ error: "Error updating stock", details: error.message }, 500);
+    console.error("❌ Error updating item:", error);
+    return c.json({ error: "Error updating item", details: error.message }, 500);
   }
 };
 
@@ -106,4 +162,33 @@ export const getAllItems = async (c: Context) => {
     console.error("❌ Error fetching items:", error);
     return c.json({ success: false, error: "Error retrieving items", details: error.message }, 500);
   }
-}
+};
+
+// Modified getSoonToExpire to include manufacturing date in the response
+export const getSoonToExpire = async (c: Context) => {
+  try {
+    const { Items } = await ddbDocClient.send(
+      new ScanCommand({ 
+        TableName: 'discts' 
+      })
+    );
+
+    if (!Items) return c.json({ success: true, items: [] });
+
+    // Filter items expiring in the next 30 days
+    const today = new Date();
+    const thirtyDaysFromNow = new Date();
+    thirtyDaysFromNow.setDate(today.getDate() + 30);
+
+    const soonToExpire = Items.filter(item => {
+      if (!item.expiryDate) return false;
+      const expiryDate = new Date(item.expiryDate);
+      return expiryDate > today && expiryDate <= thirtyDaysFromNow;
+    });
+
+    return c.json({ success: true, items: soonToExpire });
+  } catch (error) {
+    console.error("❌ Error fetching soon to expire items:", error);
+    return c.json({ success: false, error: "Error retrieving soon to expire items", details: error.message }, 500);
+  }
+};
