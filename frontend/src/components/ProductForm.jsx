@@ -5,14 +5,17 @@ const ProductForm = ({ onSubmit, loading }) => {
   const [formData, setFormData] = useState({
     name: '',
     stock: '',
-    price: '' 
+    price: '',
+    batchNumber: '',
+    manufacturingDate: '',
+    expiryDate: ''
   });
   
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value  // Store as string in state
+      [name]: value
     });
   };
   
@@ -22,10 +25,20 @@ const ProductForm = ({ onSubmit, loading }) => {
     const submissionData = {
       name: formData.name,
       stock: formData.stock === '' ? 0 : Number(formData.stock),
-      price: formData.price === '' ? 0 : Number(formData.price)
+      price: formData.price === '' ? 0 : Number(formData.price),
+      batchNumber: formData.batchNumber,
+      manufacturingDate: formData.manufacturingDate,
+      expiryDate: formData.expiryDate
     };
     onSubmit(submissionData);
-    setFormData({ name: '', stock: '', price: '' });
+    setFormData({ 
+      name: '', 
+      stock: '', 
+      price: '',
+      batchNumber: '',
+      manufacturingDate: '',
+      expiryDate: ''
+    });
   };
 
   return (
@@ -63,7 +76,7 @@ const ProductForm = ({ onSubmit, loading }) => {
         />
       </div>
       
-      <div className="mb-6">
+      <div className="mb-4">
         <label className="block text-foreground text-sm font-medium mb-2" htmlFor="price">
           Price (₹)
         </label>
@@ -78,6 +91,52 @@ const ProductForm = ({ onSubmit, loading }) => {
           step="0.01"
           required
           placeholder='Enter product price'
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-foreground text-sm font-medium mb-2" htmlFor="batchNumber">
+          Batch Number
+        </label>
+        <input
+          type="text"
+          id="batchNumber"
+          name="batchNumber"
+          value={formData.batchNumber}
+          onChange={handleChange}
+          className="bg-background border border-input rounded w-full py-2 px-3 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          required
+          placeholder='Enter batch number'
+        />
+      </div>
+      
+      <div className="mb-4">
+        <label className="block text-foreground text-sm font-medium mb-2" htmlFor="manufacturingDate">
+          Manufacturing Date
+        </label>
+        <input
+          type="date"
+          id="manufacturingDate"
+          name="manufacturingDate"
+          value={formData.manufacturingDate}
+          onChange={handleChange}
+          className="bg-background border border-input rounded w-full py-2 px-3 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          required
+        />
+      </div>
+      
+      <div className="mb-6">
+        <label className="block text-foreground text-sm font-medium mb-2" htmlFor="expiryDate">
+          Expiry Date
+        </label>
+        <input
+          type="date"
+          id="expiryDate"
+          name="expiryDate"
+          value={formData.expiryDate}
+          onChange={handleChange}
+          className="bg-background border border-input rounded w-full py-2 px-3 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          required
         />
       </div>
       

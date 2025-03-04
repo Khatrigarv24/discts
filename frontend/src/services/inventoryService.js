@@ -1,13 +1,10 @@
 // src/services/inventoryService.js
 const API_URL = 'http://localhost:5000/discts/inventory';
 
-// Helper function to get auth headers
 const getHeaders = () => {
-  // For simplicity, we'll disable CSRF protection for this example
-  // In a real application, you would need to properly handle CSRF tokens
   return {
     'Content-Type': 'application/json',
-    'x-csrf-disable': 'true' // This is a custom header to bypass CSRF
+    'x-csrf-disable': 'true'
   };
 };
 
@@ -40,7 +37,8 @@ export const addProduct = async (product) => {
   });
   
   if (!response.ok) {
-    throw new Error(`Failed to add product: ${response.statusText}`);
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || `Failed to add product: ${response.statusText}`);
   }
   return response.json();
 };
@@ -69,4 +67,15 @@ export const deleteProduct = async (productId) => {
     throw new Error(`Failed to delete product (${response.status}): ${errorText || response.statusText}`);
   }
   return response.json();
+};
+
+export const getSoonToExpire = async () => {
+  const response = await fetch(`${API_URL}/expiring-soon`, {
+    headers: getHeaders()
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to fetch expiring products: ${response.statusText}`);
+  }
+  const data = await response.json();
+  return data.items || [];
 };
