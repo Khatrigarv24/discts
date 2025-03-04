@@ -4,7 +4,6 @@ import { addProduct, updateProductStock, deleteProduct, getAllProducts } from '.
 import ProductForm from '../components/ProductForm';
 import ProductList from '../components/ProductList';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Plus } from 'lucide-react';
 import {
   AlertDialog,
@@ -16,6 +15,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog";
 
 const InventoryPage = () => {
   const { isSignedIn } = useAuth();
@@ -114,25 +121,25 @@ const InventoryPage = () => {
         <h1 className="text-3xl font-bold text-foreground">Inventory Management</h1>
         
         {isSignedIn && (
-          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
+          <Dialog open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <DialogTrigger asChild>
               <Button className="flex items-center gap-1">
                 <Plus className="h-4 w-4" />
                 Add Product
               </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Add New Product</SheetTitle>
-                <SheetDescription>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add New Product</DialogTitle>
+                <DialogDescription>
                   Fill in the details below to add a new product to your inventory.
-                </SheetDescription>
-              </SheetHeader>
+                </DialogDescription>
+              </DialogHeader>
               <div className="mt-6">
                 <ProductForm onSubmit={handleAddProduct} loading={loading} />
               </div>
-            </SheetContent>
-          </Sheet>
+            </DialogContent>
+          </Dialog>
         )}
       </div>
       

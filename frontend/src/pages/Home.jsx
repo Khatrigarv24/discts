@@ -2,121 +2,208 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
-import { Pill, ShieldCheck, Activity, BarChart3, Clock, Package, Beaker, Server } from 'lucide-react';
+import { 
+  ShieldCheck, Activity, BarChart3, Clock, Package, 
+  LayoutDashboard, Laptop, ChevronRight, Database, AlertCircle
+} from 'lucide-react';
 
 const Home = () => {
   const { isSignedIn } = useAuth();
   
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      {/* Hero Section */}
       <div className="py-12 md:py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <div className="inline-flex items-center mb-4">
-              <Pill className="h-10 w-10 text-primary mr-2" strokeWidth={1.5} />
-              <h1 className="text-4xl font-bold text-foreground">DISCTS</h1>
-            </div>
-            <h2 className="text-3xl font-semibold mb-6 text-foreground leading-tight">
+          <div className="animate-fadeIn">
+            <h1 className="text-5xl font-bold text-foreground mb-2 leading-tight">DISCTS</h1>
+            <h2 className="text-3xl font-semibold mb-6 leading-tight bg-gradient-to-r from-primary to-blue-600 text-transparent bg-clip-text">
               Smart Pharmaceutical <br /> Inventory Management
             </h2>
             <p className="text-xl mb-8 text-muted-foreground">
-              Streamline your pharmacy operations with our comprehensive drug inventory tracking system.
+              Streamline your pharmacy operations with our comprehensive drug inventory tracking system that ensures compliance and reduces waste.
             </p>
             
             {isSignedIn ? (
               <Link 
                 to="/inventory" 
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-md text-lg font-medium transition-colors duration-300 inline-flex items-center"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-md text-lg font-medium transition-colors duration-300 inline-flex items-center shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
               >
                 <Package className="mr-2 h-5 w-5" />
                 Access Inventory
+                <ChevronRight className="ml-2 h-5 w-5" />
               </Link>
             ) : (
               <div>
-                <p className="text-destructive font-medium flex items-center mb-4">
-                  <ShieldCheck className="mr-2 h-5 w-5" />
-                  Authentication required for access to pharmaceutical inventory
-                </p>
+                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4 mb-6">
+                  <p className="text-destructive font-medium flex items-center">
+                    <ShieldCheck className="mr-2 h-5 w-5" />
+                    Authentication required for access to pharmaceutical inventory
+                  </p>
+                </div>
                 <div className="flex gap-4">
                   <Link 
                     to="/about" 
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-md text-lg font-medium transition-colors duration-300 inline-flex items-center"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-md text-lg font-medium transition-colors duration-300 inline-flex items-center shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
                   >
                     Learn More
+                    <ChevronRight className="ml-2 h-5 w-5" />
                   </Link>
                   <a 
                     href="#features" 
                     className="border border-primary text-primary hover:bg-primary/5 px-6 py-3 rounded-md text-lg font-medium transition-colors duration-300 inline-flex items-center"
                   >
                     See Features
+                    <ChevronRight className="ml-2 h-5 w-5" />
                   </a>
                 </div>
               </div>
             )}
           </div>
           
-          <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-8 shadow-lg border border-border">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-background p-4 rounded-lg shadow-sm border border-border flex flex-col items-center">
-                <Activity className="h-8 w-8 text-primary mb-2" />
-                <span className="text-sm font-medium">Real-time</span>
+          <div className="relative">
+            {/* Main feature visual */}
+            <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-8 shadow-xl border border-border relative overflow-hidden">
+              <div className="absolute top-0 right-0 h-32 w-32 bg-primary/5 rounded-full -mr-16 -mt-16"></div>
+              <div className="absolute bottom-0 left-0 h-24 w-24 bg-primary/5 rounded-full -ml-12 -mb-12"></div>
+              
+              <div className="grid grid-cols-2 gap-4 relative z-10">
+                <div className="bg-background p-4 rounded-lg shadow-md border border-border flex flex-col items-center transform transition-transform hover:scale-105">
+                  <Activity className="h-8 w-8 text-primary mb-2" />
+                  <span className="text-sm font-medium">Real-time Tracking</span>
+                </div>
+                <div className="bg-background p-4 rounded-lg shadow-md border border-border flex flex-col items-center transform transition-transform hover:scale-105">
+                  <ShieldCheck className="h-8 w-8 text-primary mb-2" />
+                  <span className="text-sm font-medium">FDA Compliant</span>
+                </div>
+                <div className="bg-background p-4 rounded-lg shadow-md border border-border flex flex-col items-center transform transition-transform hover:scale-105">
+                  <Clock className="h-8 w-8 text-primary mb-2" />
+                  <span className="text-sm font-medium">Expiry Alerts</span>
+                </div>
+                <div className="bg-background p-4 rounded-lg shadow-md border border-border flex flex-col items-center transform transition-transform hover:scale-105">
+                  <BarChart3 className="h-8 w-8 text-primary mb-2" />
+                  <span className="text-sm font-medium">Analytics</span>
+                </div>
               </div>
-              <div className="bg-background p-4 rounded-lg shadow-sm border border-border flex flex-col items-center">
-                <ShieldCheck className="h-8 w-8 text-primary mb-2" />
-                <span className="text-sm font-medium">Compliant</span>
-              </div>
-              <div className="bg-background p-4 rounded-lg shadow-sm border border-border flex flex-col items-center">
-                <Clock className="h-8 w-8 text-primary mb-2" />
-                <span className="text-sm font-medium">Expiry Alerts</span>
-              </div>
-              <div className="bg-background p-4 rounded-lg shadow-sm border border-border flex flex-col items-center">
-                <BarChart3 className="h-8 w-8 text-primary mb-2" />
-                <span className="text-sm font-medium">Analytics</span>
+              
+              {/* Mock dashboard preview */}
+              <div className="mt-8 bg-background rounded-lg border border-border p-3 shadow-inner overflow-hidden">
+                <div className="flex items-center gap-2 mb-2 border-b border-border pb-2">
+                  <LayoutDashboard className="h-4 w-4 text-primary" />
+                  <span className="text-xs font-medium">Dashboard Preview</span>
+                </div>
+                <div className="h-20 flex gap-2">
+                  <div className="h-full w-1/3 bg-muted rounded"></div>
+                  <div className="h-full w-2/3 flex flex-col gap-2">
+                    <div className="h-1/2 bg-muted rounded"></div>
+                    <div className="h-1/2 bg-muted rounded"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Stats banner */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-6 mb-12">
+        <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg shadow p-6 border border-border text-center transform transition-transform hover:scale-105">
+          <div className="text-3xl font-bold text-foreground mb-1">99.9%</div>
+          <div className="text-sm text-muted-foreground">Inventory Accuracy</div>
+        </div>
+        <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg shadow p-6 border border-border text-center transform transition-transform hover:scale-105">
+          <div className="text-3xl font-bold text-foreground mb-1">30%</div>
+          <div className="text-sm text-muted-foreground">Waste Reduction</div>
+        </div>
+        <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg shadow p-6 border border-border text-center transform transition-transform hover:scale-105">
+          <div className="text-3xl font-bold text-foreground mb-1">24/7</div>
+          <div className="text-sm text-muted-foreground">Monitoring</div>
+        </div>
+      </div>
       
       {/* Features Section */}
       <div id="features" className="py-12 border-t border-border">
-        <h2 className="text-2xl font-semibold mb-8 text-foreground">Key Pharmaceutical Management Features</h2>
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-semibold text-foreground">Key Pharmaceutical Management Features</h2>
+          <div className="h-1 w-24 bg-gradient-to-r from-primary to-blue-600 rounded-full"></div>
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-card shadow rounded-lg p-6 border border-border hover:shadow-md transition-shadow">
+          <div className="bg-card shadow-lg rounded-lg p-6 border border-border hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="flex items-center mb-4">
               <div className="bg-primary/10 p-3 rounded-full mr-4">
                 <Clock className="w-6 h-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-card-foreground">Expiration Tracking</h3>
             </div>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground mb-4">
               Automated alerts for approaching expirations to ensure medication safety and reduce waste.
             </p>
+            <div className="bg-muted/50 p-3 rounded-md">
+              <div className="flex items-center gap-2 text-sm">
+                <AlertCircle className="h-4 w-4 text-amber-500" />
+                <span>Reduces expired inventory by 87%</span>
+              </div>
+            </div>
           </div>
           
-          <div className="bg-card shadow rounded-lg p-6 border border-border hover:shadow-md transition-shadow">
+          <div className="bg-card shadow-lg rounded-lg p-6 border border-border hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="flex items-center mb-4">
               <div className="bg-primary/10 p-3 rounded-full mr-4">
                 <ShieldCheck className="w-6 h-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-card-foreground">Regulatory Compliance</h3>
             </div>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground mb-4">
               Built-in features to maintain FDA and DEA compliance for controlled substances.
             </p>
+            <div className="bg-muted/50 p-3 rounded-md">
+              <div className="flex items-center gap-2 text-sm">
+                <Database className="h-4 w-4 text-primary" />
+                <span>Audit-ready documentation</span>
+              </div>
+            </div>
           </div>
           
-          <div className="bg-card shadow rounded-lg p-6 border border-border hover:shadow-md transition-shadow">
+          <div className="bg-card shadow-lg rounded-lg p-6 border border-border hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="flex items-center mb-4">
               <div className="bg-primary/10 p-3 rounded-full mr-4">
                 <BarChart3 className="w-6 h-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-card-foreground">Usage Analytics</h3>
             </div>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground mb-4">
               Detailed insights into medication usage patterns to optimize ordering and stock levels.
             </p>
+            <div className="bg-muted/50 p-3 rounded-md">
+              <div className="flex items-center gap-2 text-sm">
+                <Laptop className="h-4 w-4 text-green-500" />
+                <span>Real-time decision support</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* CTA Section */}
+      <div className="py-12 mb-8">
+        <div className="bg-gradient-to-r from-primary/20 to-blue-600/20 rounded-lg shadow-lg p-8 border border-border relative overflow-hidden">
+          <div className="absolute top-0 right-0 h-64 w-64 bg-primary/5 rounded-full -mr-32 -mt-32"></div>
+          <div className="absolute bottom-0 left-0 h-48 w-48 bg-blue-600/5 rounded-full -ml-24 -mb-24"></div>
+          
+          <div className="relative z-10 text-center max-w-xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4 text-foreground">Transform Your Pharmaceutical Inventory Today</h2>
+            <p className="text-lg mb-8 text-muted-foreground">
+              Join forward-thinking pharmacies using DISCTS to optimize inventory, reduce waste, and ensure compliance.
+            </p>
+            <div className="flex justify-center gap-4">
+              <Link 
+                to="/inventory" 
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-md text-lg font-medium transition-colors duration-300 inline-flex items-center shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
+              >
+                Get Started Now
+                <ChevronRight className="ml-2 h-5 w-5" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
