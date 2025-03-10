@@ -5,13 +5,7 @@ import { secureHeaders } from "hono/secure-headers";
 import appRouter from "../api";
 
 export async function BootstrapServer(app: Hono) {
-  app.use('*', cors({
-    origin: '*', // In production you should restrict this
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowHeaders: ['Content-Type', 'Authorization', 'x-csrf-disable'],
-    exposeHeaders: ['Content-Length'],
-    maxAge: 600,
-  }));
+  app.use('*', cors());
   
   // Disable CSRF for requests with the x-csrf-disable header
   app.use(async (c, next) => {

@@ -21,10 +21,13 @@
     "@hono/node-server": "^1.13.7",
     "@types/node": "^22.10.5",
     "dotenv": "^16.4.7",
-    "hono": "^4.6.16"
+    "hono": "^4.6.16",
+    "node-cron": "^3.0.3",
+    "pdfkit": "^0.14.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
+    "@types/pdfkit": "^0.13.4",
     "eslint": "^9.18.0",
     "globals": "^15.14.0",
     "prettier": "3.4.2",

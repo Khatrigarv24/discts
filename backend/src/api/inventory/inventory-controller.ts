@@ -63,7 +63,7 @@ export const addItem = async (c: Context) => {
 };
 
 // 📌 Get an Item by ID
-export const getProductById = async (c: Context) => {
+export const getItemsById = async (c: Context) => {
   const productId: string = c.req.param("id");
 
   try {
@@ -167,23 +167,28 @@ export const getAllItems = async (c: Context) => {
 // Modified getSoonToExpire to include manufacturing date in the response
 export const getSoonToExpire = async (c: Context) => {
   try {
+    const today = new Date().toISOString();
+    const thirtyDaysFromNow = new Date();
+    thirtyDaysFromNow.setDate(new Date().getDate() + 30);
+    const thirtyDaysFromNowISO = thirtyDaysFromNow.toISOString();
+
     const { Items } = await ddbDocClient.send(
-      new ScanCommand({ 
-        TableName: 'discts' 
+      new ScanCommand({
+        TableName: 'discts',
+        FilterExpression: "expiryDate BETWEEN :today AND :thirtyDaysFromNow",
+        ExpressionAttributeValues: {
+          ":today": today,
+          ":thirtyDaysFromNow": thirtyDaysFromNowISO,
+        },
       })
     );
 
     if (!Items) return c.json({ success: true, items: [] });
 
-    // Filter items expiring in the next 30 days
-    const today = new Date();
-    const thirtyDaysFromNow = new Date();
-    thirtyDaysFromNow.setDate(today.getDate() + 30);
-
     const soonToExpire = Items.filter(item => {
       if (!item.expiryDate) return false;
       const expiryDate = new Date(item.expiryDate);
-      return expiryDate > today && expiryDate <= thirtyDaysFromNow;
+      return !isNaN(expiryDate.getTime());
     });
 
     return c.json({ success: true, items: soonToExpire });

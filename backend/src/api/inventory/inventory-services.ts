@@ -25,7 +25,7 @@ export async function connectDB(): Promise<void> {
       return;
     }
 
-    console.log("✅ Inventory table created successfully");
+    console.log("Table does not exist....");
   } catch (err) {
     console.error("❌ Error ensuring DynamoDB table:", err);
   }
