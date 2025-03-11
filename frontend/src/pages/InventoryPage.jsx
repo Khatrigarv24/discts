@@ -4,7 +4,7 @@ import { addProduct, updateProductStock, deleteProduct, getAllProducts } from '.
 import ProductForm from '../components/ProductForm';
 import ProductList from '../components/ProductList';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,6 +32,7 @@ const InventoryPage = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   
   // Fetch products on component mount
   useEffect(() => {
@@ -115,6 +116,11 @@ const InventoryPage = () => {
     }
   };
 
+  const filteredProducts = products.filter(product => 
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.batchNumber.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-8">
@@ -143,6 +149,21 @@ const InventoryPage = () => {
         )}
       </div>
       
+      <div className="mb-6">
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-muted-foreground" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="pl-10 w-full p-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
+
       {error && (
         <div className="bg-destructive/20 border border-destructive text-destructive-foreground px-4 py-3 rounded mb-6">
           {error}
@@ -155,7 +176,7 @@ const InventoryPage = () => {
             <div className="p-6 text-center text-muted-foreground">Loading inventory items...</div>
           ) : (
             <ProductList 
-              products={products} 
+              products={filteredProducts} 
               onUpdateStock={handleUpdateStock}
               onDeleteProduct={confirmDeleteProduct}
               loading={loading}

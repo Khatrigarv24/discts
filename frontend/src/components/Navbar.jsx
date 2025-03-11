@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { UserButton, SignInButton, useAuth } from '@clerk/clerk-react';
-import { 
+import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuTrigger,
-  NavigationMenuContent,
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
@@ -22,9 +20,9 @@ const Navbar = () => {
   useEffect(() => {
     // Check if there's a stored preference
     const storedTheme = localStorage.getItem('theme');
-    const prefersDark = storedTheme === 'dark' || 
+    const prefersDark = storedTheme === 'dark' ||
       (storedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
+
     // Apply the theme
     setIsDarkTheme(prefersDark);
     if (prefersDark) {
@@ -38,7 +36,7 @@ const Navbar = () => {
   const toggleTheme = () => {
     const newTheme = !isDarkTheme;
     setIsDarkTheme(newTheme);
-    
+
     if (newTheme) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
@@ -64,8 +62,8 @@ const Navbar = () => {
             <NavigationMenuList className="gap-2">
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link 
-                    to="/" 
+                  <Link
+                    to="/"
                     className={cn(
                       navigationMenuTriggerStyle(),
                       "bg-transparent hover:bg-accent hover:text-accent-foreground",
@@ -76,64 +74,41 @@ const Navbar = () => {
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              
-              {/* Inventory with Dropdown */}
+
               <NavigationMenuItem>
-                <NavigationMenuTrigger className={cn(
-                  "bg-transparent hover:bg-accent hover:text-accent-foreground",
-                  location.pathname.startsWith('/inventory') && "bg-accent text-accent-foreground"
-                )}>
-                  Inventory
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-popover border-border">
-                  <ul className="grid w-[220px] gap-3 p-4">
-                    <li>
-                      <Link to="/inventory" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent">
-                        <div className="text-sm font-medium text-popover-foreground">All Inventory</div>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/inventory/categories" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent">
-                        <div className="text-sm font-medium text-popover-foreground">Categories</div>
-                      </Link>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              
-              {/* Management with Dropdown */}
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className={cn(
-                  "bg-transparent hover:bg-accent hover:text-accent-foreground",
-                  location.pathname.startsWith('/management') && "bg-accent text-accent-foreground"
-                )}>
-                  Management
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-popover border-border">
-                  <ul className="grid w-[220px] gap-3 p-4">
-                    <li>
-                      <Link to="/management/reports" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent">
-                        <div className="text-sm font-medium text-popover-foreground">Reports</div>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/management/users" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent">
-                        <div className="text-sm font-medium text-popover-foreground">Users</div>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/management/settings" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent">
-                        <div className="text-sm font-medium text-popover-foreground">Settings</div>
-                      </Link>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
-                {/* Fix: Use asChild to prevent nested <a> tags */}
                 <NavigationMenuLink asChild>
-                  <Link 
+                  <Link
+                    to="/dashboard"
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent hover:bg-accent hover:text-accent-foreground",
+                      location.pathname === '/dashboard' && "bg-accent text-accent-foreground"
+                    )}
+                  >
+                    Dashboard
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              {/* Inventory as a regular link instead of dropdown */}
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/inventory"
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent hover:bg-accent hover:text-accent-foreground",
+                      location.pathname.startsWith('/inventory') && "bg-accent text-accent-foreground"
+                    )}
+                  >
+                    Inventory
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
                     to="/about"
                     className={cn(
                       navigationMenuTriggerStyle(),
@@ -147,7 +122,7 @@ const Navbar = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          
+
           {/* Auth Section */}
           <div className="flex items-center gap-3">
             {/* Theme toggle button */}
@@ -162,9 +137,9 @@ const Navbar = () => {
                 <Moon className="h-5 w-5 text-muted-foreground" />
               )}
             </button>
-            
+
             {isSignedIn ? (
-              <UserButton 
+              <UserButton
                 appearance={{
                   elements: {
                     userButtonAvatarBox: "h-8 w-8 rounded-full border-2 border-border"

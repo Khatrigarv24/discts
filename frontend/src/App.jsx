@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import InventoryPage from './pages/InventoryPage'
 import AboutPage from './pages/AboutPage'
+import DashboardPage from './pages/DashboardPage'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <div className="container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/inventory" element={<InventoryPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>
