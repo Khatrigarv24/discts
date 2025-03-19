@@ -12,5 +12,5 @@ connectDB();
 setupInvoiceTable();
 // Use Inventory Routes
 appRouter.route('/inventory', inventoryRoutes);
-appRouter.route('/invoice', invoiceRoutes);
+appRouter.route('/order', invoiceRoutes);
 export default appRouter;

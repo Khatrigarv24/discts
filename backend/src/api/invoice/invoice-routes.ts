@@ -8,11 +8,11 @@ const invoiceRoutes = new Hono();
 invoiceRoutes.use('*', cors());
 
 // Define Invoice Routes
-invoiceRoutes.post('/create', createInvoice);
-invoiceRoutes.get('/all', getAllInvoices);
-invoiceRoutes.delete('delete/:id', deleteInvoice);
-invoiceRoutes.get('/customer/:customerId', getInvoicesByCustomer);
-invoiceRoutes.get('/:id', getInvoiceById);
-invoiceRoutes.get('/:id/pdf', downloadInvoicePdf);
+invoiceRoutes.post('/create-order', createInvoice);
+invoiceRoutes.get('/all-invoices', getAllInvoices);
+invoiceRoutes.delete('/delete-invoice/:id', deleteInvoice);
+invoiceRoutes.get('/invoice-by-cusID/:customerId', getInvoicesByCustomer);
+invoiceRoutes.get('/invoice/:id', getInvoiceById);
+invoiceRoutes.get('/invoice/:id/pdf', downloadInvoicePdf);
 
 export { invoiceRoutes };
