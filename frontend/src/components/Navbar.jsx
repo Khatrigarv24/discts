@@ -90,7 +90,6 @@ const Navbar = () => {
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
-              {/* Inventory as a regular link instead of dropdown */}
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
@@ -102,6 +101,22 @@ const Navbar = () => {
                     )}
                   >
                     Inventory
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              {/* Add Invoices Navigation Link */}
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/invoices"
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent hover:bg-accent hover:text-accent-foreground",
+                      location.pathname.startsWith('/invoices') && "bg-accent text-accent-foreground"
+                    )}
+                  >
+                    Invoices
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
