@@ -4,6 +4,7 @@ import { invoiceRoutes } from './invoice/invoice-routes';
 import { connectDB } from './inventory/inventory-services';
 import { setupInvoiceTable } from './invoice/invoice-services';
 import './cran-jobs';
+import predictionRouter from './../api/prediction/prediction-routes';
 
 const appRouter = new Hono();
 
@@ -13,4 +14,5 @@ setupInvoiceTable();
 // Use Inventory Routes
 appRouter.route('/inventory', inventoryRoutes);
 appRouter.route('/order', invoiceRoutes);
+appRouter.route('/api/predictions', predictionRouter);
 export default appRouter;
